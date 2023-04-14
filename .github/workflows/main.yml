@@ -20,8 +20,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        conda env create -f environment.yml
-        conda activate tostadas
+        mamba env create -f environment.yml
+        source activate tostadas
+        mamba install -c bioconda nextflow
 
     - name: Run tests
       run: pytest
