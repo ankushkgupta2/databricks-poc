@@ -20,6 +20,9 @@ jobs:
 
     - name: Install dependencies
       run: |
+        curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
+        bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
+        export PATH="$HOME/mambaforge/bin:$PATH"
         mamba env create -f environment.yml
         source activate tostadas
         mamba install -c bioconda nextflow
