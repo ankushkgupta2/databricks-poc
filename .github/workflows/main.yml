@@ -26,6 +26,7 @@ jobs:
         mamba env create -f environment.yml
         source activate tostadas
         mamba install -c bioconda nextflow
+        mamba install pytest
 
     - name: Run tests
       run: pytest
