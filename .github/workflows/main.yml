@@ -20,11 +20,14 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install Dependencies
-      run: |
-        pip install -r .github/workflows/requirements.txt
-        curl -s https://get.nextflow.io | bash
-        export PATH=$HOME/.nextflow:$PATH
+    - name: Copy Test File
+      run: cp tests/test_main.py .github/workflows/
+
+    - name: Change Directories
+      run: cd .github/workflows/
+
+    - name: Build Docker Image
+      run: docker build -t CI-Tostadas .
 
     - name: Run Tests
-      run: pytest -p no:warnings tests/test_main.py
+      run: docker run --rm -v CI-Tostadas pytest -p no:warnings test_main.py
