@@ -27,7 +27,7 @@ jobs:
       run: cd .github/workflows/
 
     - name: Build Docker Image
-      run: docker build -t CI-Tostadas .
+      run: docker build -t TostadasCI .
 
     - name: Run Tests
-      run: docker run --rm -v CI-Tostadas pytest -p no:warnings test_main.py
+      run: docker run --rm -v TostadasCI pytest -p no:warnings test_main.py
