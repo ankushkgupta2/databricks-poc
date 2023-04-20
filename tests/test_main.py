@@ -27,7 +27,7 @@ def test_main():
 
     # run the main workflow command + output directory = main workflow
     os.system (
-        f"nextflow run main.nf -profile test,docker --submission_wait_time 2 --submission_database all --output_dir {dir_name} " + \
+        f"nextflow run main.nf -profile test,conda --submission_wait_time 2 --submission_database all --output_dir {dir_name} " + \
         f"--val_output_dir {meta_dir_name} --final_liftoff_output_dir {lift_dir_name} --submission_output_dir {sub_dir_name} " + \
         f"--batch_name {batch_name} --submission_database all"
     )
@@ -70,7 +70,7 @@ def test_meta_val():
 
     # run metadata validation entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,docker -entry only_validation --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,conda -entry only_validation --output_dir {output_dir} " + \
         f"--val_output_dir {meta_dir}"
     )
 
@@ -91,7 +91,7 @@ def test_liftoff():
 
     # run liftoff entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,docker -entry only_liftoff --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,conda -entry only_liftoff --output_dir {output_dir} " + \
         f"--final_liftoff_output_dir {lift_dir}"
     )
     assert os.path.exists(f"{output_dir}/{lift_dir}")
@@ -116,7 +116,7 @@ def test_initial_sub():
 
     # run the initial submission entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,docker -entry only_initial_submission --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,conda -entry only_initial_submission --output_dir {output_dir} " + \
         f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {util.root_dir}/{meta_dir}/*/tsv_per_sample " + \
         f"--submission_only_fasta {util.root_dir}/{lift_dir}/*/fasta --submission_only_gff {util.root_dir}/{lift_dir}/*/liftoff"
     )
@@ -138,7 +138,7 @@ def test_update_sub():
 
     # run the update submission entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,docker -entry only_update_submission " + \
+        f"nextflow run main.nf -profile test,conda -entry only_update_submission " + \
         f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test/"
     )
 
@@ -328,7 +328,7 @@ class UtilityFunctions():
 
         # call the submission entrypoint
         os.system (
-            f"nextflow run main.nf -profile test,docker -entry only_submission --submission_wait_time 2 --output_dir {output_dir} " + \
+            f"nextflow run main.nf -profile test,conda -entry only_submission --submission_wait_time 2 --output_dir {output_dir} " + \
             f"--submission_only_meta {self.root_dir}/{output_dir}/{meta_dir_name}/*/tsv_per_sample/ --submission_only_fasta {self.root_dir}/{output_dir}/{lift_dir_name}/*/fasta/ " + \
             f"--submission_only_gff {self.root_dir}/{output_dir}/{lift_dir_name}/*/liftoff/ --submission_output_dir {sub_dir_name} --batch_name {batch_name} " + \
             f"--submission_database all"

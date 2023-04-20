@@ -31,9 +31,6 @@ jobs:
     
     - name: Install Pytest
       run: pip install pytest
-    
-    - name: Configure Conda
-      run: conda init bash
 
     - name: Run Tests
       run: |
