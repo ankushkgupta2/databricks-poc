@@ -1,0 +1,4 @@
+python==3.9.0
+pandas==1.5.1
+pytest==6.2.3
+glob2==0.7
