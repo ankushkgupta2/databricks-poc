@@ -1,20 +1,19 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+name: Feature Request (User)
+about: As a user, suggest an idea for this project
+title: "[External] [Feature] <Title>"
+labels: enhancement
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**What is the Feature Related To? Please Provide a Description.**
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Categorize the Importance of the Feature from 1-5:**
+* 1 = most important (absolutely integral and will not use codebase at all without it)
+* 2-4 = moderate (still using codebase for other functions but is serving as a blocker for personal future state)
+* 5 = least important (would like to see but there are no stringent expectations or urgency for my current use-cases)  
+ 
+**Rating:**
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Any Additional Context or Information? Has There Been Any Progress Made So Far Towards this Request? Any Helpful Resources to Reference? Screenshots or Links?**
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**In Case for Additional Follow-Up, Please Provide your Email:**
