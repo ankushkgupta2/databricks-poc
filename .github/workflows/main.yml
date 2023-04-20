@@ -34,7 +34,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        source activate tostadas
+        conda activate tostadas
         pytest -p no:warnings tests/test_main.py
   
     - name: Deactivate Environment
