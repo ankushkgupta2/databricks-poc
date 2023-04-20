@@ -30,16 +30,7 @@ jobs:
         mamba install -c bioconda nextflow
     
     - name: Install Pytest
-      run: |
-        source activate tostadas
-        pip install pytest
-    
-    - name: Initialize Submodule
-      run: |
-        git submodule init
-        git submodule update --remote
+      run: pip install pytest
 
     - name: Run Tests
-      run: |
-        source activate tostadas
-        pytest -p no:warnings tests/test_main.py
+      run: pytest -p no:warnings tests/test_main.py
