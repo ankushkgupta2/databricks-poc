@@ -1,4 +1,4 @@
-name: Tostadas CI
+name: Tostadas CI (Conda)
 
 on:
   pull_request:
@@ -33,9 +33,7 @@ jobs:
       run: pip install pytest
 
     - name: Run Tests
-      run: |
-        conda activate tostadas
-        pytest -p no:warnings tests/test_main.py
+      run: pytest -p no:warnings tests/test_main.py
   
     - name: Deactivate Environment
       run: conda deactivate
