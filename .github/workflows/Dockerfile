@@ -16,6 +16,9 @@ RUN mamba install -c bioconda nextflow
 # Install pytest
 RUN conda install pytest -c conda-forge
 
+# Install pandas
+RUN conda install pandas
+
 # Make sure permissions are fine at env location
 RUN ["/bin/bash", "-c", "chmod -R a+rw /opt/conda/envs/ci_tostadas"]
 
