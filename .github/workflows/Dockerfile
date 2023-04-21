@@ -4,7 +4,7 @@ FROM continuumio/miniconda3:latest
 RUN conda install mamba -n base -c conda-forge
 
 # Create conda environment
-RUN conda env create -n ci_tostadas
+RUN conda create -n ci_tostadas python=3.9
 
 # Activate the conda environment
 RUN echo "conda activate ci_tostadas" >> ~/.bashrc
