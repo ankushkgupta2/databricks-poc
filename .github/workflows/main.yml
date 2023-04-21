@@ -23,11 +23,8 @@ jobs:
     - name: Copy Test File
       run: cp tests/test_main.py .github/workflows/
 
-    - name: Change Directories
-      run: cd .github/workflows/
-
     - name: Build Docker Image
-      run: docker build -t ci_tostadas .
+      run: cd .github/workflows/ && docker build -t ci_tostadas .
 
     - name: Run Tests
       run: docker run --rm -v ci_tostadas pytest -p no:warnings test_main.py
