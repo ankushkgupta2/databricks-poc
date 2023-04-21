@@ -27,4 +27,4 @@ jobs:
       run: cd .github/workflows/ && docker build -t ci_tostadas .
 
     - name: Run Tests
-      run: docker run --rm -v ci_tostadas
+      run: docker run ci_tostadas
