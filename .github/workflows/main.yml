@@ -26,10 +26,11 @@ jobs:
         curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
         bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
         export PATH="$HOME/mambaforge/bin:$PATH"
+        conda update conda
         mamba env create -f environment.yml
         mamba clean -a -y
-        echo "source activate tostadas" > ~/.bashrc && \
-        source activate tostadas
+        echo "source activate tostadas" > ~/.bashrc && source activate tostadas
+        conda install samtools=1.14
         mamba install -c bioconda nextflow
         conda install pandas
     
