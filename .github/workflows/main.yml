@@ -38,4 +38,6 @@ jobs:
       run: pip install pytest
       
     - name: Run Tests
-      run: pytest -p no:warnings tests/test_main.py
+      run: |
+        source activate tostadas
+        pytest -p no:warnings tests/test_main.py
