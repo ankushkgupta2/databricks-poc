@@ -27,12 +27,12 @@ jobs:
         bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
         export PATH="$HOME/mambaforge/bin:$PATH"
         conda update conda
-        mamba env create -f environment.yml
-        mamba clean -a -y
+        mamba create -n tostadas python=3.9
         echo "source activate tostadas" > ~/.bashrc && source activate tostadas
-        conda install samtools=1.14
         mamba install -c bioconda nextflow
         conda install pandas
+        conda install pytest
+        conda install glob2
     
     - name: Install Pytest
       run: pip install pytest
