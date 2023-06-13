@@ -39,5 +39,5 @@ jobs:
       
     - name: Run Tests
       run: |
-        conda activate tostadas
+        echo "source activate tostadas" > ~/.bashrc && source activate tostadas
         pytest -p no:warnings tests/test_main.py
