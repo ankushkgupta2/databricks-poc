@@ -24,6 +24,8 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install -r .github/workflows/requirements.txt
+        curl -s https://get.nextflow.io | bash
+        export PATH=$HOME/.nextflow:$PATH
 
     - name: Run Tests
       run: pytest -p no:warnings tests/test_main.py
