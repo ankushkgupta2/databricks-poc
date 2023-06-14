@@ -21,14 +21,21 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install Dependencies
+    - name: Install Conda
       run: |
         curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
         bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
         export PATH="$HOME/mambaforge/bin:$PATH"
         conda update conda
+        conda activate base 
+    
+    - name: Create and Activate Environment
+      run: |
         mamba create -n tostadas python=3.9
-        echo "source activate tostadas" > ~/.bashrc && source activate tostadas
+        conda activate tostadas
+
+    - name: Install Dependencies
+      run: |
         mamba install -c bioconda nextflow
         conda install pandas
         conda install pytest
