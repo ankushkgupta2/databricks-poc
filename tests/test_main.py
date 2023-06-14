@@ -237,7 +237,7 @@ class Liftoff(OutputChecks):
         # split the fasta and get sample names + use the default one
         true_root = '/'.join(self.util.root_dir.split('/')[:-2])
         self.util.ext_util.split_fasta (
-            fasta_path=f"{true_root}/input_files/trialData.fasta",
+            fasta_path=f"input_files/trialData.fasta",
             fasta_output=f"test_fasta/"
         )
 
