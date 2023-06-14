@@ -42,4 +42,6 @@ jobs:
         conda activate ci_tostadas
         conda install -c bioconda nextflow
         conda install pytest
+        conda install pandas 
+        conda install glob2
         pytest -p no:warnings tests/test_main.py
