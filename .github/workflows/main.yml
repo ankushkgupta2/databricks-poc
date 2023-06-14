@@ -37,8 +37,7 @@ jobs:
 
     - name: Create and Activate Environment
       run: |
-        source $HOME/.bashrc
-        conda init bash
+        source ~/miniconda/etc/profile.d/conda.sh
         conda activate ci_tostadas
 
     - name: Install Nextflow
