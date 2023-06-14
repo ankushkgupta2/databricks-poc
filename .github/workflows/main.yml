@@ -29,7 +29,7 @@ jobs:
         source $HOME/.bashrc
 
     - name: Verify Mamba installation
-      run: mamba --version
+      run: $HOME/mambaforge/bin/mamba --version
     
     - name: Create and Activate Environment
       run: |
