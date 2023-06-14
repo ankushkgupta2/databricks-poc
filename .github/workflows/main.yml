@@ -35,7 +35,7 @@ jobs:
         echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> $HOME/.bashrc
         echo "conda activate base" >> $HOME/.bashrc
 
-    - name: Create and Activate Environment
+    - name: Create Environment and Run Tests 
       run: |
         source ~/miniconda/etc/profile.d/conda.sh
         conda create -n ci_tostadas python=3.9 -c bioconda
@@ -45,7 +45,4 @@ jobs:
         conda install pytest
         conda install pandas 
         conda install glob2
-  
-    - name: Run Tests
-      run: |
         pytest -p no:warnings tests/test_main.py
