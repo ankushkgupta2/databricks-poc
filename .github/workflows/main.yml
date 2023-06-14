@@ -33,12 +33,12 @@ jobs:
     
     - name: Create and Activate Environment
       run: |
-        mamba env create -n tostadas -f environment.yml
+        $HOME/mambaforge/bin/mamba env create -n tostadas -f environment.yml
         conda activate tostadas
 
     - name: Install Dependencies
       run: |
-        mamba install -c bioconda nextflow
+        $HOME/mambaforge/bin/mamba install -c bioconda nextflow
         conda install pandas
         conda install pytest
         conda install glob2
