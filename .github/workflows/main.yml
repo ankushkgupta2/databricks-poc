@@ -32,7 +32,7 @@ jobs:
     - name: Initialize Conda shell
       run: |
         echo ". $HOME/mambaforge/etc/profile.d/conda.sh" >> $HOME/.bashrc
-        echo "conda activate tostadas" >> $HOME/.bashrc
+        echo "conda activate base" >> $HOME/.bashrc
 
     - name: Create and Activate Environment
       run: |
