@@ -28,24 +28,18 @@ jobs:
 
     - name: Verify Mamba installation
       run: $HOME/mambaforge/bin/mamba --version
-    
-    - name: Initialize Conda shell
-      run: |
-        echo ". $HOME/mambaforge/etc/profile.d/conda.sh" >> $HOME/.bashrc
-        echo "conda activate base" >> $HOME/.bashrc
 
     - name: Create and Activate Environment
       run: |
-        source $HOME/.bashrc
-        conda init bash
-        conda activate tostadas
+        $HOME/mambaforge/bin/mamba env create -n tostadas -f environment.yml
+        $HOME/mambaforge/bin/conda activate tostadas
 
     - name: Install Dependencies
       run: |
         $HOME/mambaforge/bin/mamba install -c bioconda nextflow
-        conda install pandas
-        conda install pytest
-        conda install glob2
+        $HOME/mambaforge/bin/conda install pandas
+        $HOME/mambaforge/bin/conda install pytest
+        $HOME/mambaforge/bin/conda install glob2
         pip install pytest
       
     - name: Run Tests
