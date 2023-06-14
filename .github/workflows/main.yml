@@ -21,6 +21,7 @@ jobs:
       with:
         python-version: '3.9'
 
+    
     - name: Install Miniconda
       run: |
         curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -32,19 +33,13 @@ jobs:
 
     - name: Create and Activate Environment
       run: |
-        conda install mamba -n base -c conda-forge
-        conda create -n ci_tostadas python=3.9
-        echo "conda activate ci_tostadas" >> ~/.bashrc
-        source activate ci_tostadas
-        mamba install -c bioconda nextflow
+        conda env create -n ci_tostadas -f environment.yml
+        conda activate ci_tostadas
 
-    - name: Install Dependencies
+    - name: Install Nextflow
       run: |
-        $HOME/mambaforge/bin/conda install pandas
-        $HOME/mambaforge/bin/conda install pytest
-        $HOME/mambaforge/bin/conda install glob2
-        pip install pytest
-      
+        conda install -c bioconda nextflow
+
     - name: Run Tests
       run: |
         pytest -p no:warnings tests/test_main.py
