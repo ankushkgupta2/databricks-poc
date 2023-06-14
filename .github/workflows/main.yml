@@ -21,12 +21,11 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Install Conda
+    - name: Install Mambaforge
       run: |
-        curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
-        bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
-        export PATH="$HOME/mambaforge/bin:$PATH"
-        conda update conda
+        wget -qO ~/mambaforge.sh https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+        bash ~/mambaforge.sh -b -p $HOME/mambaforge
+        source $HOME/mambaforge/etc/profile.d/conda.sh
         conda activate base 
     
     - name: Create and Activate Environment
