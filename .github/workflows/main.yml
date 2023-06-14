@@ -20,20 +20,24 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
-
     - name: Install Mambaforge
       run: |
         curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
         bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
-        echo 'export PATH="$HOME/mambaforge/bin:$PATH"' >> $HOME/.bashrc
-        source $HOME/.bashrc
+        export PATH="$HOME/mambaforge/bin:$PATH"
 
     - name: Verify Mamba installation
       run: $HOME/mambaforge/bin/mamba --version
     
+    - name: Initialize Conda shell
+      run: |
+        echo ". $HOME/mambaforge/etc/profile.d/conda.sh" >> $HOME/.bashrc
+        echo "conda activate tostadas" >> $HOME/.bashrc
+
     - name: Create and Activate Environment
       run: |
-        $HOME/mambaforge/bin/mamba env create -n tostadas -f environment.yml
+        source $HOME/.bashrc
+        conda init bash
         conda activate tostadas
 
     - name: Install Dependencies
