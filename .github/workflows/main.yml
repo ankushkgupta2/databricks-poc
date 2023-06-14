@@ -25,7 +25,8 @@ jobs:
       run: |
         curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
         bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
-        export PATH="$HOME/mambaforge/bin:$PATH"
+        echo 'export PATH="$HOME/mambaforge/bin:$PATH"' >> $HOME/.bashrc
+        source $HOME/.bashrc
 
     - name: Verify Mamba installation
       run: mamba --version
@@ -41,11 +42,8 @@ jobs:
         conda install pandas
         conda install pytest
         conda install glob2
-    
-    - name: Install Pytest
-      run: pip install pytest
+        pip install pytest
       
     - name: Run Tests
       run: |
-        echo "source activate tostadas" > ~/.bashrc && source activate tostadas
         pytest -p no:warnings tests/test_main.py
