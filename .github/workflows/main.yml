@@ -45,4 +45,7 @@ jobs:
         conda install pytest
         conda install pandas 
         conda install glob2
+  
+    - name: Run tests
+      run: |
         pytest -p no:warnings tests/test_main.py
