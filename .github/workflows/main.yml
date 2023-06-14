@@ -30,7 +30,7 @@ jobs:
     
     - name: Create and Activate Environment
       run: |
-        mamba create -n tostadas python=3.9
+        mamba env create -n tostadas -f environment.yml
         conda activate tostadas
 
     - name: Install Dependencies
