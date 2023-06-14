@@ -21,7 +21,6 @@ jobs:
       with:
         python-version: '3.9'
 
-    
     - name: Install Miniconda
       run: |
         curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -31,9 +30,15 @@ jobs:
     - name: Verify Conda installation
       run: conda --version
 
+    - name: Initialize Conda shell
+      run: |
+        echo ". $HOME/miniconda/etc/profile.d/conda.sh" >> $HOME/.bashrc
+        echo "conda activate base" >> $HOME/.bashrc
+
     - name: Create and Activate Environment
       run: |
-        conda env create -n ci_tostadas -f environment.yml
+        source $HOME/.bashrc
+        conda init bash
         conda activate ci_tostadas
 
     - name: Install Nextflow
