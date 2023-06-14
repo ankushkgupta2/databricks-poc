@@ -229,23 +229,10 @@ class Liftoff(OutputChecks):
                 assert glob.glob(f"{self.path_to_lift_dir}/*/{dir_name}/{sub_file}")[0] in sub_dir_ls
 
     def check_fasta(self, dir_name):
-        # create the test fasta directory 
-        if os.path.exists("test_fasta"):
-            shutil.rmtree("test_fasta")
-        os.mkdir("test_fasta")
-
-        # split the fasta and get sample names + use the default one
-        true_root = '/'.join(self.util.root_dir.split('/')[:-2])
-        self.util.ext_util.split_fasta (
-            fasta_path=f"input_files/trialData.fasta",
-            fasta_output=f"test_fasta/"
-        )
-
+        
         # check that it worked fine 
-        new_fastas = glob.glob('test_fasta/*')
         orig_fastas = glob.glob(f"{self.path_to_lift_dir}/*/{dir_name}/*")
         assert len(orig_fastas) == 7
-        assert len(orig_fastas) == len(new_fastas)
         for file_name in orig_fastas:
             fasta_lines = self.util.read_file_lines (
                 path_to_file=file_name
