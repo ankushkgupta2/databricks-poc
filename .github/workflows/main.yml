@@ -35,7 +35,7 @@ jobs:
         conda install mamba -n base -c conda-forge
         conda create -n ci_tostadas python=3.9
         echo "conda activate ci_tostadas" >> ~/.bashrc
-        conda activate ci_tostadas
+        source activate ci_tostadas
         mamba install -c bioconda nextflow
 
     - name: Install Dependencies
