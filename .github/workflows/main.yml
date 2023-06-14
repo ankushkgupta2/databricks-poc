@@ -23,10 +23,9 @@ jobs:
 
     - name: Install Mambaforge
       run: |
-        wget -qO ~/mambaforge.sh https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
-        bash ~/mambaforge.sh -b -p $HOME/mambaforge
-        echo 'export PATH="$HOME/mambaforge/bin:$PATH"' >> $HOME/.bashrc
-        source $HOME/.bashrc
+        curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
+        bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge
+        export PATH="$HOME/mambaforge/bin:$PATH"
 
     - name: Verify Mamba installation
       run: mamba --version
