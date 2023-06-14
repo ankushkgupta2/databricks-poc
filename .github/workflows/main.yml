@@ -40,6 +40,7 @@ jobs:
         source ~/miniconda/etc/profile.d/conda.sh
         conda create -n ci_tostadas python=3.9 -c bioconda
         conda activate ci_tostadas
+        conda install mamba -c conda-forge
         conda install -c bioconda nextflow
         conda install pytest
         conda install pandas 
