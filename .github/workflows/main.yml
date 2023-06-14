@@ -45,4 +45,5 @@ jobs:
 
     - name: Run Tests
       run: |
+        conda activate ci_tostadas
         pytest -p no:warnings tests/test_main.py
