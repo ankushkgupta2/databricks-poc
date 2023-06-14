@@ -41,6 +41,7 @@ jobs:
         conda create -n ci_tostadas python=3.9 -c bioconda
         conda activate ci_tostadas
         conda install -c bioconda nextflow
+        conda install pytest
 
     - name: Run Tests
       run: |
