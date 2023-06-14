@@ -42,8 +42,4 @@ jobs:
         conda activate ci_tostadas
         conda install -c bioconda nextflow
         conda install pytest
-
-    - name: Run Tests
-      run: |
-        conda activate ci_tostadas
         pytest -p no:warnings tests/test_main.py
