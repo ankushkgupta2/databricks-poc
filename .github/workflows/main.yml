@@ -38,10 +38,8 @@ jobs:
     - name: Create and Activate Environment
       run: |
         source ~/miniconda/etc/profile.d/conda.sh
+        conda create -n ci_tostadas python=3.9 -c bioconda
         conda activate ci_tostadas
-
-    - name: Install Nextflow
-      run: |
         conda install -c bioconda nextflow
 
     - name: Run Tests
