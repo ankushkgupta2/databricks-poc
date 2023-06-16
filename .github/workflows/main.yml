@@ -38,10 +38,9 @@ jobs:
     - name: Create Environment and Run Tests 
       run: |
         source ~/miniconda/etc/profile.d/conda.sh
-        conda create -n ci_tostadas python=3.9 -c bioconda
+        conda install mamba -n base -c conda-forge
+        mamba env create -n ci_tostadas -f environment.yml
         conda activate ci_tostadas
-        conda install mamba -c conda-forge
-        mamba install -c bioconda nextflow
         conda install -q -y pytest
         conda install -q -y pandas 
         conda install -q -y glob2
