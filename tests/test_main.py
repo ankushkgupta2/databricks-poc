@@ -30,7 +30,7 @@ def test_main():
     os.system (
         f"nextflow run main.nf -profile test,conda --submission_wait_time 2 --submission_database all --output_dir {dir_name} " + \
         f"--val_output_dir {meta_dir_name} --final_liftoff_output_dir {lift_dir_name} --submission_output_dir {sub_dir_name} " + \
-        f"--batch_name {batch_name} --submission_database all"
+        f"--batch_name {batch_name}"
     )
 
     # check that the proper outputs are generated in the custom output directory
