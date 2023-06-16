@@ -296,7 +296,7 @@ class Submission(OutputChecks):
         if initial_or_update == 'initial' or initial_or_update == 'both':
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_submit_info.txt")
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_terminal_output.txt")
-        elif initial_or_update == 'update' or initial_or_update == 'both':
+        if initial_or_update == 'update' or initial_or_update == 'both':
             assert os.path.exists(f"{directory}/update_submit_info/{sample_name}_update_terminal_output.txt")
 
 
