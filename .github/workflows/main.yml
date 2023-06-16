@@ -42,6 +42,7 @@ jobs:
         conda activate ci_tostadas
         conda install mamba -c conda-forge
         conda install -q -y -c bioconda nextflow
+        conda install -q -y -c conda-forge openjdk=11
         conda install -q -y pytest
         conda install -q -y pandas 
         conda install -q -y glob2
