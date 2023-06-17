@@ -321,6 +321,7 @@ class Submission(OutputChecks):
         log_df = pd.read_csv(path_to_log, header=None)
         if compiled is True:
             # all of the samples should be in this upload log
+            print(log_df)
             assert log_df.shape[0] == 7
             # check the sample names
             for samp in log_df['name']:
