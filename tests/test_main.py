@@ -275,8 +275,19 @@ class Submission(OutputChecks):
         self.list_of_samples = ['FL0004', 'FL0015', 'IL0005', 'NY0006', 'NY0007', 'OH0002', 'TX0001']
     
     def submission_check_main(self, initial_or_update):
+
+        # get the directories for the batch.sample_name 
         batch_dirs = glob.glob(f"{self.path_to_sub_dir}/*")
+        batch_dirs = [x for x in batch_dirs if x.split('/')[-1].split('.')[0].strip() == 'batch_test']
         assert len(batch_dirs) == 7
+
+        # check that there is an upload log generated + do global check
+        assert os.path.isfile(f"{self.path_to_sub_dir}/upload_log.csv")
+        self.check_upload_log (
+                compiled=True,
+                path_to_log=f"{self.path_to_sub_dir}/upload_log.csv"
+        )
+
         for directory in batch_dirs:
             # check that proper batch name was used 
             assert directory.split('/')[-1].split('.')[0].strip() == 'batch_test'
@@ -290,6 +301,11 @@ class Submission(OutputChecks):
                 directory=directory,
                 sample_name=sample_name
             )
+            # check that the upload log for sample contains proper content
+            self.check_upload_log (
+                compiled=False,
+                path_to_log=f"{directory}/{sample_name}_upload_log.csv"
+            )
 
     @staticmethod
     def check_submit_info(initial_or_update, directory, sample_name):
@@ -298,6 +314,22 @@ class Submission(OutputChecks):
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_terminal_output.txt")
         if initial_or_update == 'update' or initial_or_update == 'both':
             assert os.path.exists(f"{directory}/update_submit_info/{sample_name}_update_terminal_output.txt")
+
+    @staticmethod 
+    def check_upload_log(compiled, path_to_log):
+        # read the upload log in
+        log_df = pd.read_csv(path_to_log, header=None)
+        if compiled is True:
+            # all of the samples should be in this upload log
+            assert log_df.shape[0] == 7
+            # check the sample names
+            for samp in log_df['name']:
+                assert samp in self.list_of_samples
+        else:
+            # check that the expected sample name is present 
+            assert log_df.shape[0] == 1
+            # check that the sample name is present 
+            assert path_to_log.split('/')[-1].split('_')[0] == log_df['name'][0]
 
 
 class UtilityFunctions():
