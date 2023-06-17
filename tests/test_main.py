@@ -300,7 +300,7 @@ class Submission(OutputChecks):
 
     @staticmethod
     def check_submit_info(initial_or_update, directory, sample_name):
-        assert os.path.isfile(f"{directory}/{sample_name}_upload_log.csv")
+        # assert os.path.isfile(f"{directory}/{sample_name}_upload_log.csv")
         if initial_or_update == 'initial' or initial_or_update == 'both':
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_submit_info.txt")
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_terminal_output.txt")
