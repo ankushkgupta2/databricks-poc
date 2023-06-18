@@ -130,17 +130,19 @@ def test_initial_sub():
 def test_update_sub():
 
     # initialize some other variables
-    output_dir = "test_update_submission"
+    output_dir = "test_submission"
     batch_name = "batch_test"
+    sub_dir = "submission_outputs_test"
 
     # initialize the checks class/methods
-    submission_checks = Submission(path_to_sub_dir=f"test_submission/submission_outputs_test", batch_name=batch_name)
+    submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
     util = UtilityFunctions()
 
     # run the update submission entrypoint
     os.system (
         f"nextflow run main.nf -profile test,conda -entry only_update_submission " + \
-        f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test/"
+        f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test " + \
+        f"--output_dir {output_dir} --submission_output_dir {sub_dir}"
     )
 
     # run the submission checks
