@@ -39,7 +39,7 @@ jobs:
       run: |
         source ~/miniconda/etc/profile.d/conda.sh
         conda install mamba -n base -c conda-forge
-        mamba env create -n ci_tostadas -f environment.yml
+        mamba env create -n ci_tostadas python=3.9
         conda activate ci_tostadas
         mamba install -c bioconda nextflow
         conda install -q -y pytest
