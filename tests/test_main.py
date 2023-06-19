@@ -71,7 +71,7 @@ def test_meta_val():
 
     # run metadata validation entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_validation --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,docker -entry only_validation --output_dir {output_dir} " + \
         f"--val_output_dir {meta_dir}"
     )
 
