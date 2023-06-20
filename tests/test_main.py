@@ -20,6 +20,7 @@ def test_main(run_method):
     lift_dir_name = 'test_liftoff_outputs'
     sub_dir_name = 'test_sub_outputs'
     batch_name = 'batch_test'
+    util = UtilityFunctions()
 
     # initialize the checks class/methods + for utility
     metadata_checks = Metadata(path_to_meta_dir=f"{dir_name}/{meta_dir_name}")
@@ -96,6 +97,7 @@ def test_liftoff(run_method):
     # initialize some other variables
     output_dir = "test_liftoff"
     lift_dir = "liftoff_outputs_test"
+    util = UtilityFunctions()
 
     # initialize the checks class/methods + for utility
     liftoff_checks = Liftoff(path_to_lift_dir=f"{output_dir}/{lift_dir}")
@@ -125,6 +127,7 @@ def test_initial_sub(run_method):
     lift_dir = "test_liftoff/liftoff_outputs_test"
     sub_dir = "submission_outputs_test"
     batch_name = "batch_test"
+    util = UtilityFunctions()
 
     # initialize the checks class/methods
     submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
@@ -152,6 +155,7 @@ def test_update_sub(run_method):
     output_dir = "test_submission"
     batch_name = "batch_test"
     sub_dir = "submission_outputs_test"
+    util = UtilityFunctions()
 
     # initialize the checks class/methods
     submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
