@@ -11,7 +11,8 @@ sys.path.append("..")
 from bin.annotation_utility import MainUtility as main_util
 
 
-def test_main():
+@pytest.mark.parametrize("run_method", ["conda", "docker"])
+def test_main(run_method):
 
     # initialize a few parameters to test
     dir_name = 'test_main_workflow'
@@ -28,7 +29,7 @@ def test_main():
 
     # run the main workflow command + output directory = main workflow
     os.system (
-        f"nextflow run main.nf -profile test,conda --submission_wait_time 2 --submission_database all --output_dir {dir_name} " + \
+        f"nextflow run main.nf -profile test,{run_method} --submission_wait_time 2 --submission_database all --output_dir {dir_name} " + \
         f"--val_output_dir {meta_dir_name} --final_liftoff_output_dir {lift_dir_name} --submission_output_dir {sub_dir_name} " + \
         f"--batch_name {batch_name}"
     )
@@ -51,12 +52,19 @@ def test_main():
         meta_dir_name=meta_dir_name,
         lift_dir_name=lift_dir_name,
         sub_dir_name=sub_dir_name,
-        batch_name=batch_name
+        batch_name=batch_name,
+        run_method=run_method
     )
 
     # run the submission check 
     submission_checks = Submission(path_to_sub_dir=f"{dir_name}/{sub_dir_name}", batch_name=batch_name)
     submission_checks.submission_check_main(initial_or_update='both')
+
+    # remove the entire previous directory
+    os.system (
+        f"rm -rf {dir_name}"
+    )
+    assert not os.path.exists(f"{dir_name}")
 
 
 @pytest.mark.run(order=1)
@@ -316,7 +324,7 @@ class UtilityFunctions():
         self.root_dir = '/'.join(__file__.split('/')[:-2])
         self.ext_util = main_util()
 
-    def call_submission(self, output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name):
+    def call_submission(self, output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name, run_method):
         # initialize the checks class/methods
         output_checks = OutputChecks()
 
@@ -328,7 +336,7 @@ class UtilityFunctions():
 
         # call the submission entrypoint
         os.system (
-            f"nextflow run main.nf -profile test,conda -entry only_submission --submission_wait_time 2 --output_dir {output_dir} " + \
+            f"nextflow run main.nf -profile test,{run_method} -entry only_submission --submission_wait_time 2 --output_dir {output_dir} " + \
             f"--submission_only_meta {self.root_dir}/{output_dir}/{meta_dir_name}/*/tsv_per_sample/ --submission_only_fasta {self.root_dir}/{output_dir}/{lift_dir_name}/*/fasta/ " + \
             f"--submission_only_gff {self.root_dir}/{output_dir}/{lift_dir_name}/*/liftoff/ --submission_output_dir {sub_dir_name} --batch_name {batch_name} " + \
             f"--submission_database all"
