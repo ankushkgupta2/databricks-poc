@@ -4,14 +4,14 @@ import glob
 import shutil
 import pandas as pd
 
+# import the module for utility functions for testing
+from utility import UtilityFunctions as util
+
 # import the module for general utility functions for annotation
 import sys
 sys.path.append(".")
 sys.path.append("..")
 from bin.annotation_utility import MainUtility as main_util
-
-# import the module for utility functions for testin
-from utility import UtilityFunctions as util
 
 
 @pytest.mark.parametrize("run_method", ["conda", "docker"])
