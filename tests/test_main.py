@@ -161,7 +161,7 @@ def test_update_sub(run_method):
     # run the update submission entrypoint
     os.system (
         f"nextflow run main.nf -profile test,conda -entry only_update_submission " + \
-        f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test " + \
+        f"--batch_name {batch_name} --processed_samples {output_dir}/{sub_dir} " + \
         f"--output_dir {output_dir} --submission_output_dir {sub_dir}"
     )
 
@@ -299,6 +299,7 @@ class Submission(OutputChecks):
         self.path_to_sub_dir = path_to_sub_dir
         self.batch_name = batch_name
         self.list_of_samples = ['FL0004', 'FL0015', 'IL0005', 'NY0006', 'NY0007', 'OH0002', 'TX0001']
+        self.batch_dirs = None
     
     def submission_check_main(self, initial_or_update):
 
