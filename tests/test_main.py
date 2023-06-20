@@ -4,7 +4,10 @@ import glob
 import shutil
 import pandas as pd
 
-# import the module for splitting fasta
+# import the module for utility functions for testing
+from .utility import UtilityFunctions as util
+
+# import the module for general utility functions for annotation
 import sys
 sys.path.append(".")
 sys.path.append("..")
@@ -25,7 +28,6 @@ def test_main(run_method):
     metadata_checks = Metadata(path_to_meta_dir=f"{dir_name}/{meta_dir_name}")
     liftoff_checks = Liftoff(path_to_lift_dir=f"{dir_name}/{lift_dir_name}")
     submission_checks = Submission(path_to_sub_dir=f"{dir_name}/{sub_dir_name}/liftoff", batch_name=batch_name)
-    util = UtilityFunctions()
 
     # run the main workflow command + output directory = main workflow
     os.system (
@@ -100,7 +102,6 @@ def test_liftoff(run_method):
 
     # initialize the checks class/methods + for utility
     liftoff_checks = Liftoff(path_to_lift_dir=f"{output_dir}/{lift_dir}")
-    util = UtilityFunctions()
 
     # run liftoff entrypoint
     os.system (
@@ -130,13 +131,12 @@ def test_initial_sub(run_method):
 
     # initialize the checks class/methods
     submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
-    util = UtilityFunctions()
 
     # run the initial submission entrypoint
     os.system (
         f"nextflow run main.nf -profile test,{run_method} -entry only_initial_submission --output_dir {output_dir} " + \
-        f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {util.root_dir}/{meta_dir}/*/tsv_per_sample " + \
-        f"--submission_only_fasta {util.root_dir}/{lift_dir}/*/fasta --submission_only_gff {util.root_dir}/{lift_dir}/*/liftoff"
+        f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {meta_dir}/*/tsv_per_sample " + \
+        f"--submission_only_fasta {lift_dir}/*/fasta --submission_only_gff {lift_dir}/*/liftoff"
     )
 
     # run the submission checks
@@ -158,7 +158,6 @@ def test_update_sub(run_method):
 
     # initialize the checks class/methods
     submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
-    util = UtilityFunctions()
 
     # run the update submission entrypoint
     os.system (
@@ -177,7 +176,7 @@ def test_update_sub(run_method):
 
 class OutputChecks(object):
     def __init__(self):
-        self.util = UtilityFunctions()
+        self.util = util
 
 class Metadata(OutputChecks):
     def __init__(self, path_to_meta_dir):
