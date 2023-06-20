@@ -1,19 +1,14 @@
 import os 
 import glob
 
-# import the module for general utility functions for annotation
-import sys
-sys.path.append(".")
-sys.path.append("..")
-from bin.annotation_utility import MainUtility as main_util
-
 
 class UtilityFunctions():
     def __init__(self):
-        self.root_dir = '/'.join(__file__.split('/')[:-2])
-        self.ext_util = main_util()
+        """
+        """
 
-    def call_submission(self, output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name, run_method):
+    @staticmethod
+    def call_submission(output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name, run_method):
         # initialize the checks class/methods
         output_checks = OutputChecks()
 
@@ -26,8 +21,8 @@ class UtilityFunctions():
         # call the submission entrypoint
         os.system (
             f"nextflow run main.nf -profile test,{run_method} -entry only_submission --submission_wait_time 2 --output_dir {output_dir} " + \
-            f"--submission_only_meta {self.root_dir}/{output_dir}/{meta_dir_name}/*/tsv_per_sample/ --submission_only_fasta {self.root_dir}/{output_dir}/{lift_dir_name}/*/fasta/ " + \
-            f"--submission_only_gff {self.root_dir}/{output_dir}/{lift_dir_name}/*/liftoff/ --submission_output_dir {sub_dir_name} --batch_name {batch_name} " + \
+            f"--submission_only_meta {output_dir}/{meta_dir_name}/*/tsv_per_sample/ --submission_only_fasta {output_dir}/{lift_dir_name}/*/fasta/ " + \
+            f"--submission_only_gff {output_dir}/{lift_dir_name}/*/liftoff/ --submission_output_dir {sub_dir_name} --batch_name {batch_name} " + \
             f"--submission_database all"
         )
         assert os.path.exists(f"{output_dir}/{sub_dir_name}")
