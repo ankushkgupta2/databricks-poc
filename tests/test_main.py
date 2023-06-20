@@ -4,9 +4,6 @@ import glob
 import shutil
 import pandas as pd
 
-# import the module for utility functions for testing
-from .utility import UtilityFunctions as util
-
 # import the module for general utility functions for annotation
 import sys
 sys.path.append(".")
