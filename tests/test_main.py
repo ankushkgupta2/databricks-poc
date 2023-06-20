@@ -135,8 +135,8 @@ def test_initial_sub(run_method):
     # run the initial submission entrypoint
     os.system (
         f"nextflow run main.nf -profile test,{run_method} -entry only_initial_submission --output_dir {output_dir} " + \
-        f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {meta_dir}/*/tsv_per_sample " + \
-        f"--submission_only_fasta {lift_dir}/*/fasta --submission_only_gff {lift_dir}/*/liftoff"
+        f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {util.root_dir}/{meta_dir}/*/tsv_per_sample " + \
+        f"--submission_only_fasta {util.root_dir}/{lift_dir}/*/fasta --submission_only_gff {util.root_dir}/{lift_dir}/*/liftoff"
     )
 
     # run the submission checks
