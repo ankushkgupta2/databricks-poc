@@ -61,34 +61,38 @@ def test_main(run_method):
     submission_checks.submission_check_main(initial_or_update='both')
 
     # remove the entire previous directory
-    os.system (
-        f"rm -rf {dir_name}"
-    )
-    assert not os.path.exists(f"{dir_name}")
+    util.remove_files(dir_2_remove=dir_name)
 
 
 @pytest.mark.run(order=1)
-def test_meta_val():
+@pytest.mark.parametrize("run_method", ["docker", "conda"])
+def test_meta_val(run_method):
 
     # initialize some other variables
     output_dir = "test_meta_val"
     meta_dir = "metadata_outputs_test"
+    util = UtilityFunctions()
 
     # initialize the checks class/methods + for utility
     metadata_checks = Metadata(path_to_meta_dir=f"{output_dir}/{meta_dir}")
 
     # run metadata validation entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_validation --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,{run_method} -entry only_validation --output_dir {output_dir} " + \
         f"--val_output_dir {meta_dir}"
     )
 
     # run the metadata checks 
     metadata_checks.meta_check_main()
 
+    # delete the docker outputs 
+    if run_method == 'docker':
+        util.remove_files(dir_2_remove=output_dir)
+
 
 @pytest.mark.run(order=2)
-def test_liftoff():
+@pytest.mark.parametrize("run_method", ["docker", "conda"])
+def test_liftoff(run_method):
 
     # initialize some other variables
     output_dir = "test_liftoff"
@@ -100,7 +104,7 @@ def test_liftoff():
 
     # run liftoff entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_liftoff --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,{run_method} -entry only_liftoff --output_dir {output_dir} " + \
         f"--final_liftoff_output_dir {lift_dir}"
     )
     assert os.path.exists(f"{output_dir}/{lift_dir}")
@@ -108,9 +112,14 @@ def test_liftoff():
     # check the liftoff outputs 
     liftoff_checks.liftoff_check_main()
 
+    # delete the docker outputs 
+    if run_method == 'docker':
+        util.remove_files(dir_2_remove=output_dir)
+
 
 @pytest.mark.run(order=3)
-def test_initial_sub():
+@pytest.mark.parametrize("run_method", ["docker", "conda"])
+def test_initial_sub(run_method):
 
     # initialize some other variables
     output_dir = "test_submission"
@@ -125,7 +134,7 @@ def test_initial_sub():
 
     # run the initial submission entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_initial_submission --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,{run_method} -entry only_initial_submission --output_dir {output_dir} " + \
         f"--submission_output_dir {sub_dir} --batch_name {batch_name} --submission_database all --submission_only_meta {util.root_dir}/{meta_dir}/*/tsv_per_sample " + \
         f"--submission_only_fasta {util.root_dir}/{lift_dir}/*/fasta --submission_only_gff {util.root_dir}/{lift_dir}/*/liftoff"
     )
@@ -133,9 +142,14 @@ def test_initial_sub():
     # run the submission checks
     submission_checks.submission_check_main(initial_or_update='initial')
 
+    # delete the docker outputs 
+    if run_method == 'docker':
+        util.remove_files(dir_2_remove=output_dir)
+
 
 @pytest.mark.run(order=4)
-def test_update_sub():
+@pytest.mark.parametrize("run_method", ["conda", "docker"])
+def test_update_sub(run_method):
 
     # initialize some other variables
     output_dir = "test_submission"
@@ -148,13 +162,17 @@ def test_update_sub():
 
     # run the update submission entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_update_submission " + \
+        f"nextflow run main.nf -profile test,{run_method} -entry only_update_submission " + \
         f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test " + \
         f"--output_dir {output_dir} --submission_output_dir {sub_dir}"
     )
 
     # run the submission checks
     submission_checks.submission_check_main(initial_or_update='update')
+
+    # remove files 
+    for folder in submission_checks.batch_dirs:
+        util.remove_files(dir_2_remove=f"{folder}/update_submit_info")
     
 
 class OutputChecks(object):
@@ -283,18 +301,19 @@ class Submission(OutputChecks):
         self.path_to_sub_dir = path_to_sub_dir
         self.batch_name = batch_name
         self.list_of_samples = ['FL0004', 'FL0015', 'IL0005', 'NY0006', 'NY0007', 'OH0002', 'TX0001']
+        self.batch_dirs = None
     
     def submission_check_main(self, initial_or_update):
 
         # get the directories for the batch.sample_name 
         batch_dirs = glob.glob(f"{self.path_to_sub_dir}/*")
-        batch_dirs = [x for x in batch_dirs if x.split('/')[-1].split('.')[0].strip() == 'batch_test']
-        assert len(batch_dirs) == 7
+        self.batch_dirs = [x for x in batch_dirs if x.split('/')[-1].split('.')[0].strip() == 'batch_test']
+        assert len(self.batch_dirs) == 7
 
         # check that there is an upload log generated + do global check
         assert os.path.isfile(f"{self.path_to_sub_dir}/upload_log.csv")
 
-        for directory in batch_dirs:
+        for directory in self.batch_dirs:
             # check that proper batch name was used 
             assert directory.split('/')[-1].split('.')[0].strip() == 'batch_test'
             # check that the proper sample names was used 
@@ -350,8 +369,11 @@ class UtilityFunctions():
         return lines
     
     @staticmethod
-    def remove_all_files():
-        """.DS_Store"""
+    def remove_files(dir_2_remove):
+        os.system (
+            f"rm -rf {dir_2_remove}"
+        )
+        assert not os.path.exists(f"{dir_2_remove}")
 
 
 if __name__ == "__main__":
