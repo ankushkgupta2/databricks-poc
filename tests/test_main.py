@@ -147,6 +147,7 @@ def test_update_sub():
 
     # run the submission checks
     submission_checks.submission_check_main(initial_or_update='update')
+    
 
 class OutputChecks(object):
     def __init__(self):
