@@ -304,7 +304,7 @@ class Submission(OutputChecks):
     def submission_check_main(self, initial_or_update):
 
         # get the directories for the batch.sample_name 
-        self.batch_dirs = glob.glob(f"{self.path_to_sub_dir}/*")
+        batch_dirs = glob.glob(f"{self.path_to_sub_dir}/*")
         self.batch_dirs = [x for x in batch_dirs if x.split('/')[-1].split('.')[0].strip() == 'batch_test']
         assert len(self.batch_dirs) == 7
 
