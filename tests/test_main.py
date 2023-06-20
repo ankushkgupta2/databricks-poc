@@ -71,7 +71,7 @@ def test_meta_val():
 
     # run metadata validation entrypoint
     os.system (
-        f"nextflow run main.nf -profile test,conda -entry only_validation --output_dir {output_dir} " + \
+        f"nextflow run main.nf -profile test,docker -entry only_validation --output_dir {output_dir} " + \
         f"--val_output_dir {meta_dir}"
     )
 
@@ -130,22 +130,23 @@ def test_initial_sub():
 def test_update_sub():
 
     # initialize some other variables
-    output_dir = "test_update_submission"
+    output_dir = "test_submission"
     batch_name = "batch_test"
+    sub_dir = "submission_outputs_test"
 
     # initialize the checks class/methods
-    submission_checks = Submission(path_to_sub_dir=f"test_submission/submission_outputs_test", batch_name=batch_name)
+    submission_checks = Submission(path_to_sub_dir=f"{output_dir}/{sub_dir}", batch_name=batch_name)
     util = UtilityFunctions()
 
     # run the update submission entrypoint
     os.system (
         f"nextflow run main.nf -profile test,conda -entry only_update_submission " + \
-        f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test/"
+        f"--batch_name {batch_name} --processed_samples {util.root_dir}/test_submission/submission_outputs_test " + \
+        f"--output_dir {output_dir} --submission_output_dir {sub_dir}"
     )
 
     # run the submission checks
     submission_checks.submission_check_main(initial_or_update='update')
-    
 
 class OutputChecks(object):
     def __init__(self):
@@ -275,8 +276,15 @@ class Submission(OutputChecks):
         self.list_of_samples = ['FL0004', 'FL0015', 'IL0005', 'NY0006', 'NY0007', 'OH0002', 'TX0001']
     
     def submission_check_main(self, initial_or_update):
+
+        # get the directories for the batch.sample_name 
         batch_dirs = glob.glob(f"{self.path_to_sub_dir}/*")
+        batch_dirs = [x for x in batch_dirs if x.split('/')[-1].split('.')[0].strip() == 'batch_test']
         assert len(batch_dirs) == 7
+
+        # check that there is an upload log generated + do global check
+        assert os.path.isfile(f"{self.path_to_sub_dir}/upload_log.csv")
+
         for directory in batch_dirs:
             # check that proper batch name was used 
             assert directory.split('/')[-1].split('.')[0].strip() == 'batch_test'
@@ -293,10 +301,12 @@ class Submission(OutputChecks):
 
     @staticmethod
     def check_submit_info(initial_or_update, directory, sample_name):
+        # assert os.path.isfile(f"{directory}/{sample_name}_upload_log.csv")
         if initial_or_update == 'initial' or initial_or_update == 'both':
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_submit_info.txt")
             assert os.path.exists(f"{directory}/initial_submit_info/{sample_name}_initial_terminal_output.txt")
         if initial_or_update == 'update' or initial_or_update == 'both':
+            assert os.path.exists(f"{directory}/update_submit_info/{sample_name}_update_submit_info.txt")
             assert os.path.exists(f"{directory}/update_submit_info/{sample_name}_update_terminal_output.txt")
 
 
