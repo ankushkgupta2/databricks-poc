@@ -41,8 +41,8 @@ jobs:
         conda install mamba --quiet -n base -c conda-forge
         mamba env create --quiet -n ci_tostadas -f environment.yml
         conda activate ci_tostadas
-        mamba install -q -c bioconda nextflow
-        conda install -q -y pytest
-        conda install -q -y pandas 
-        conda install -q -y glob2
+        mamba install --quiet -c bioconda nextflow
+        conda install --quiet -y pytest
+        conda install --quiet -y pandas 
+        conda install --quiet -y glob2
         pytest -p no:warnings tests/test_main.py
