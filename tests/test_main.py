@@ -173,7 +173,7 @@ def test_update_sub(run_method):
 
 class OutputChecks(object):
     def __init__(self):
-        self.util = util
+        self.util = UtilityFunctions()
 
 class Metadata(OutputChecks):
     def __init__(self, path_to_meta_dir):
