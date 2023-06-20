@@ -9,8 +9,6 @@ class UtilityFunctions():
 
     @staticmethod
     def call_submission(output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name, run_method):
-        # initialize the checks class/methods
-        output_checks = OutputChecks()
 
         # remove the previous submission files
         os.system (
