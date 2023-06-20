@@ -337,7 +337,6 @@ class Submission(OutputChecks):
 class UtilityFunctions():
     def __init__(self):
         self.root_dir = '/'.join(__file__.split('/')[:-2])
-        self.ext_util = main_util()
 
     def call_submission(self, output_dir, meta_dir_name, lift_dir_name, sub_dir_name, batch_name, run_method):
         # initialize the checks class/methods
